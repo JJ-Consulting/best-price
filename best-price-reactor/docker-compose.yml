@@ -1,0 +1,46 @@
+version: '3'
+services:
+  best-price-fe:
+    image: jeanpascalr/best-price-fe:1.0.0-SNAPSHOT
+    container_name: best-price-fe
+    hostname: best-price-fe
+    networks:
+      - best-price-net
+  best-price-be:
+    image: jeanpascalr/best-price-be:1.0.0-SNAPSHOT
+    container_name: best-price-be
+    hostname: best-price-be
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB=best-price-db
+      - DB_USER=db_user
+      - DB_PASSWORD=db_password
+    networks:
+      - best-price-net
+      - best-price-back-net
+  nginx:
+    image: jeanpascalr/best-price-nginx:1.0.0-SNAPSHOT
+    container_name: best-price-nginx
+    ports:
+      - "443:443"
+    networks:
+      - best-price-net
+  db:
+    image: postgres:10.4
+    container_name: postgres
+    hostname: postgres
+    environment:
+      - POSTGRES_DB=best-price-db
+      - POSTGRES_USER=db_user
+      - POSTGRES_PASSWORD=db_password
+    networks:
+      - best-price-back-net
+volumes:
+  logvolume01: {}
+
+networks:
+  best-price-net:
+    #
+  best-price-back-net:
+    #

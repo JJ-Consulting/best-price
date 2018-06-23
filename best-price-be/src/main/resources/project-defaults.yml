@@ -1,0 +1,27 @@
+swarm:
+  logging:
+    pattern-formatters:
+      LOG_FORMATTER:
+        pattern: "CUSTOM LOG FORMAT %p [%c] %s%e%n"
+    periodic-rotating-file-handlers:
+      FILE:
+        file:
+          path: file.log
+        suffix: .yyyy-MM-dd
+        named-formatter: LOG_FORMATTER
+    root-logger:
+      handlers:
+      - CONSOLE
+      - FILE
+  datasources:
+    jdbc-drivers:
+      org.postgresql:
+        driver-class-name: org.postgresql.Driver
+        xa-datasource-class-name: org.postgresql.xa.PGXADataSource
+        driver-module-name: org.postgresql
+    data-sources:
+      bpDS:
+        driver-name: postgresql
+        connection-url: jdbc:postgresql://postgres:5432/best-price-db
+        user-name: db_user
+        password: db_password

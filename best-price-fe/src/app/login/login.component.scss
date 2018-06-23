@@ -1,0 +1,42 @@
+@import "../common";
+
+div#login-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+div#login-form-wrapper {
+  width: 450px;
+}
+
+div#tabs-wrapper {
+  display: flex;
+}
+
+div#tabs-wrapper > div {
+  flex: 1;
+  text-transform: uppercase;
+  border-bottom: 1px solid grey;
+}
+
+div#tabs-wrapper > div:hover {
+  background-color: map-get($rally-green-palette, 700);
+}
+
+div#tabs-wrapper > div.tab-active {
+  border-bottom: 2px solid map-get($rally-green-palette, 500);
+}
+
+mat-form-field {
+  width: 100%
+}
+
+div#buttons-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+
+  button {
+    margin: 0 7px;
+  }
+}

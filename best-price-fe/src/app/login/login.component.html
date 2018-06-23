@@ -1,0 +1,46 @@
+<div id="login-wrapper">
+  <div id="login-form-wrapper">
+    <h1 class="mat-display-1">Login</h1>
+
+    <!-- TODO: login/create account via tabs  -->
+
+    <div id="tabs-wrapper">
+      <div class="mat-button" (click)="onLoginTabClick()" [ngClass]="{'tab-active': onLoginTab}">login</div>
+      <div class="mat-button" (click)="onCreateAccountTabClick()" [ngClass]="{'tab-active': !onLoginTab}">create account</div>
+    </div>
+
+    <mat-card>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div *ngIf="!onLoginTab">
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Email" formControlName="email">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="example-full-width">
+            <input matInput [placeholder]="onLoginTab ? 'Login / Email' : 'Login'" formControlName="login">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="example-full-width">
+            <input matInput placeholder="Password" type="password" formControlName="password">
+          </mat-form-field>
+        </div>
+
+        <div id="buttons-wrapper">
+          <button mat-button mat-raised-button color="accent" type="submit"
+                  [disabled]="loginForm.pristine || actionDisabled">{{onLoginTab? 'Login': 'Create'}}</button>
+          <button mat-button color="accent" type="button" (click)="onRevert()"
+                  [disabled]="loginForm.pristine || actionDisabled">Cancel</button>
+        </div>
+      </form>
+    </mat-card>
+
+    <!--<div id="buttons-wrapper">
+      <button mat-button mat-raised-button color="accent" type="submit" [disabled]="loginForm.pristine">{{onLoginTab? 'Login': 'Create'}}</button>
+      <button mat-button color="accent">Cancel</button>
+    </div>-->
+  </div>
+</div>
