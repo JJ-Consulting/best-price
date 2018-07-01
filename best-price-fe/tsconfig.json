@@ -14,9 +14,6 @@
     "lib": [
       "es2017",
       "dom"
-    ],
-    "path": {
-      "@material": ["src/app/material.module"]
-    }
+    ]
   }
 }

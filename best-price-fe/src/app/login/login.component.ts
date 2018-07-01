@@ -11,8 +11,6 @@ import {MatSnackBar}                        from "@angular/material";
 })
 export class LoginComponent implements OnInit {
 
-  login: string           = 'foo@mail.com';
-  password: string        = 'bar';
   onLoginTab: boolean     = true;
   actionDisabled: boolean = false;
   loginForm: FormGroup;
@@ -37,7 +35,13 @@ export class LoginComponent implements OnInit {
   onCreateAccountTabClick(): void {
     this.onLoginTab = false;
 
-    this.loginForm.get('email').setValidators(Validators.required);
+    const login = this.loginForm.value.login;
+    if (login && login.indexOf("@") > -1) {
+      this.loginForm.controls['email'].setValue(login);
+      this.loginForm.controls['login'].setValue('');
+    }
+
+    this.loginForm.get('email').setValidators([Validators.required, Validators.pattern("[^ @]*@[^ @]*")]);
     this.loginForm.get('login').setValidators([]);
     this.loginForm.get('login').updateValueAndValidity();
     this.loginForm.get('email').updateValueAndValidity();
@@ -57,7 +61,7 @@ export class LoginComponent implements OnInit {
 
     if (this.onLoginTab) {
       this.loginService.login(formModel.login, formModel.password)
-        .subscribe((response: any) => {
+        .subscribe(() => {
             this.actionDisabled = false;
             this.router.navigate(['campaigns']);
           }, (error: any) => {
@@ -66,7 +70,7 @@ export class LoginComponent implements OnInit {
           });
     } else {
       this.loginService.createUser(formModel.email, formModel.login, formModel.password)
-        .subscribe((response: any) => {
+        .subscribe(() => {
             this.actionDisabled = false;
             this.onLoginTabClick();
             this.onRevert();

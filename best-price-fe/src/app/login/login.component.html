@@ -5,8 +5,10 @@
     <!-- TODO: login/create account via tabs  -->
 
     <div id="tabs-wrapper">
-      <div class="mat-button" (click)="onLoginTabClick()" [ngClass]="{'tab-active': onLoginTab}">login</div>
-      <div class="mat-button" (click)="onCreateAccountTabClick()" [ngClass]="{'tab-active': !onLoginTab}">create account</div>
+      <div id="loginTabButton" class="mat-button" (click)="onLoginTabClick()"
+           [ngClass]="{'tab-active': onLoginTab}">login</div>
+      <div id="createAccountTabButton" class="mat-button" (click)="onCreateAccountTabClick()"
+           [ngClass]="{'tab-active': !onLoginTab}">create account</div>
     </div>
 
     <mat-card>
@@ -38,9 +40,5 @@
       </form>
     </mat-card>
 
-    <!--<div id="buttons-wrapper">
-      <button mat-button mat-raised-button color="accent" type="submit" [disabled]="loginForm.pristine">{{onLoginTab? 'Login': 'Create'}}</button>
-      <button mat-button color="accent">Cancel</button>
-    </div>-->
   </div>
 </div>
