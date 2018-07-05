@@ -15,19 +15,19 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div *ngIf="!onLoginTab">
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Email" formControlName="email">
+            <input matInput placeholder="Email" formControlName="email" autocomplete="off">
           </mat-form-field>
         </div>
 
         <div>
           <mat-form-field class="example-full-width">
-            <input matInput [placeholder]="onLoginTab ? 'Login / Email' : 'Login'" formControlName="login">
+            <input matInput [placeholder]="onLoginTab ? 'Login / Email' : 'Login'" formControlName="login" autocomplete="off">
           </mat-form-field>
         </div>
 
         <div>
           <mat-form-field class="example-full-width">
-            <input matInput placeholder="Password" type="password" formControlName="password">
+            <input matInput placeholder="Password" type="password" formControlName="password" autocomplete="off">
           </mat-form-field>
         </div>
 

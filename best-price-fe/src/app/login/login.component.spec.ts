@@ -9,23 +9,41 @@ import {ReactiveFormsModule}     from "@angular/forms";
 import {MaterialModule}          from "../material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
-import {LoginComponent} from './login.component';
-import {LoginService}   from "./login.service";
-import {Observable}     from "rxjs/Observable";
-import {from}           from "rxjs/observable/from";
-import {Router}         from "@angular/router";
-import {By}             from "@angular/platform-browser";
+import {LoginComponent}  from './login.component';
+import {LoginService}    from "./login.service";
+import {Observable}      from "rxjs/Observable";
+import {from}            from "rxjs/observable/from";
+import {Router}          from "@angular/router";
+import {By}              from "@angular/platform-browser";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
+
+class MockLoginService {
+  constructor() {}
+  login(): Observable<object> {
+    return from([{message: 'foobar'}]);
+  }
+
+  createUser(): Observable<object> {
+    return from([{}]);
+  }
+}
+
+class MockRouter {
+  navigate(): void {
+  }
+}
 
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
+  let mockLoginService: MockLoginService = new MockLoginService();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports:      [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule],
       declarations: [LoginComponent],
       providers:    [
-        {provide: LoginService, useClass: MockLoginService},
+        {provide: LoginService, useValue: mockLoginService},
         {provide: Router, useClass: MockRouter}
       ]
     }).compileComponents();
@@ -82,20 +100,55 @@ describe('LoginComponent', () => {
     }));
   });
 
+  const setLoginPassword = () => {
+    const form = component.loginForm;
+    form.controls['login'].setValue('login');
+    form.controls['password'].setValue('password');
+  };
+
+  describe('login', () => {
+
+
+    it('should store token into local storage', () => {
+      // GIVEN
+      localStorage.removeItem('best-price-token');
+      setLoginPassword();
+
+      // WHEN
+      component.onSubmit();
+
+      // THEN
+      expect(localStorage.getItem('best-price-token')).toBe('foobar');
+    });
+
+    it('should open Mat Snack Bar on login fail', () => {
+      // GIVEN
+      spyOn(mockLoginService, 'login').and.returnValue(new ErrorObservable({status: 401}));
+      setLoginPassword();
+
+      // WHEN
+      component.onSubmit();
+
+      // THEN
+      const snackbar = document.querySelector('.mat-simple-snackbar');
+      expect(snackbar).toBeTruthy();
+    });
+  });
+
+  describe('create account', () => {
+    it('should open Mat Snack Bar on account creation failure', () => {
+      // GIVEN
+      component.onLoginTab = false;
+      spyOn(mockLoginService, 'createUser').and.returnValue(new ErrorObservable({status: 409}));
+      setLoginPassword();
+
+      // WHEN
+      component.onSubmit();
+
+      // THEN
+      const snackbar = document.querySelector('.mat-simple-snackbar');
+      expect(snackbar).toBeTruthy();
+    });
+  });
+
 });
-
-
-class MockLoginService {
-  login(): Observable<object> {
-    return from([{}]);
-  }
-
-  createUser(): Observable<object> {
-    return from([{}]);
-  }
-}
-
-class MockRouter {
-  navigate(): void {
-  }
-}

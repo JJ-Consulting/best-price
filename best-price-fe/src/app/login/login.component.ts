@@ -60,27 +60,38 @@ export class LoginComponent implements OnInit {
     const formModel     = this.loginForm.value;
 
     if (this.onLoginTab) {
-      this.loginService.login(formModel.login, formModel.password)
-        .subscribe(() => {
-            this.actionDisabled = false;
-            this.router.navigate(['campaigns']);
-          }, (error: any) => {
-            this.actionDisabled = false;
-            console.error(error);
-          });
+      this.onLogin(formModel);
     } else {
-      this.loginService.createUser(formModel.email, formModel.login, formModel.password)
-        .subscribe(() => {
-            this.actionDisabled = false;
-            this.onLoginTabClick();
-            this.onRevert();
-          }, (error: any) => {
-            this.actionDisabled = false;
-            if (error.status === 409) {
-              this.matSnackBar.open("User already exists with the provided email and / or login.");
-            }
-          });
+      this.onCreateAccount(formModel);
     }
+  }
+
+  private onLogin(formModel): void {
+    this.loginService.login(formModel.login, formModel.password)
+      .subscribe((result: any) => {
+        localStorage.setItem('best-price-token', result.message);
+        this.actionDisabled = false;
+        this.router.navigate(['campaigns']);
+      }, (error: any) => {
+        this.actionDisabled = false;
+        if (error.status === 401) {
+          this.matSnackBar.open("Wrong email, login or password.", null, {duration: 3000});
+        }
+      });
+  }
+
+  private onCreateAccount(formModel): void {
+    this.loginService.createUser(formModel.email, formModel.login, formModel.password)
+      .subscribe(() => {
+        this.actionDisabled = false;
+        this.onLoginTabClick();
+        this.onRevert();
+      }, (error: any) => {
+        this.actionDisabled = false;
+        if (error.status === 409) {
+          this.matSnackBar.open("User already exists with the provided email and / or login.", null, {duration: 3000});
+        }
+      });
   }
 
   onRevert(): void {
