@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span id="application-name" class="mat-subheading-1">JJ Best Price</span>
+    <span class="spacer"></span>
+
+    <button id="profile-button" mat-button [matMenuTriggerFor]="menu">
+      <mat-icon class="mat-icon material-icons">account_circle</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item class="profile-menu-button">
+        <mat-icon class="mat-icon material-icons">person</mat-icon>
+        <span class="mat-body-2">Account</span></button>
+      <button mat-menu-item class="profile-menu-button">
+        <mat-icon class="mat-icon material-icons">power_settings_new</mat-icon>
+        <span class="mat-body-2">Logout</span>
+      </button>
+    </mat-menu>
+
+  </mat-toolbar-row>
+</mat-toolbar>

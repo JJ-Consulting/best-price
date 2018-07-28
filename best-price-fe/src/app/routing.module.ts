@@ -4,9 +4,9 @@ import {CampaignsComponent} from "./campaigns/campaigns.component";
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
-  {path: 'campaigns', component: CampaignsComponent},
+  {path: 'campaigns/:id', component: CampaignsComponent},
   {path: '',
-    redirectTo: '/campaigns',
+    redirectTo: '/campaigns/last',
     pathMatch: 'full'
   },
   // { path: '**', component: PageNotFoundComponent }

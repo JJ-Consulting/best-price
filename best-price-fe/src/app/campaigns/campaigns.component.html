@@ -1,6 +1,21 @@
-<h1 class="mat-headline">Campaigns</h1>
+<div id="campaign-wrapper">
+  <h1 id="interactions-header" class="mat-display-1">Interactions</h1>
 
-<ul>
-  <li>campaign A</li>
-  <li>campaign B</li>
-</ul>
+  <div class="table-container mat-elevation-z8">
+    <mat-table #table [dataSource]="campaign.interactions">
+
+      <ng-container matColumnDef="date">
+        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+        <mat-cell *matCellDef="let interaction">{{interaction.date | date:'M/d/yy'}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+        <mat-cell *matCellDef="let interaction">{{interaction.price}}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  </div>
+</div>

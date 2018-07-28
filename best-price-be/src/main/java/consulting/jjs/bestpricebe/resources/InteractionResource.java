@@ -2,6 +2,7 @@ package consulting.jjs.bestpricebe.resources;
 
 import consulting.jjs.bestpricebe.dto.InteractionDto;
 import consulting.jjs.bestpricebe.exception.TechnicalException;
+import consulting.jjs.bestpricebe.filter.JWTTokenNeeded;
 import consulting.jjs.bestpricebe.services.InteractionService;
 
 import javax.inject.Inject;
@@ -14,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/interactions")
+@JWTTokenNeeded
 public class InteractionResource {
 
   @Inject

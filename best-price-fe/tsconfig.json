@@ -14,6 +14,11 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "baseUrl": "./src",
+    "paths": {
+      "@services": ["app/services/services"],
+      "@models": ["app/models/models"]
+    }
   }
 }

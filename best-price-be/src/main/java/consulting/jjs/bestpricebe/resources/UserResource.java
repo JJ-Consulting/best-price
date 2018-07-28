@@ -58,7 +58,7 @@ public class UserResource {
 
   private SimpleMessage authenticate(@FormParam("login") String login, @FormParam("password") String password) throws UnauthorizedException {
     UserDto user = userService.authenticate(login, password);
-    return new SimpleMessage("Bearer " + issueToken(user.getEmail()));
+    return new SimpleMessage(issueToken(user.getEmail()));
   }
 
   @POST
@@ -74,7 +74,7 @@ public class UserResource {
             .setSubject(login)
             .setIssuer("best-price")
             .setIssuedAt(new Date())
-            .setExpiration(toDate(LocalDateTime.now().plusMinutes(15L)))
+            .setExpiration(toDate(LocalDateTime.now().plusDays(30L)))
             .signWith(SignatureAlgorithm.HS512, keyService.getSecretKey())
             .compact();
   }

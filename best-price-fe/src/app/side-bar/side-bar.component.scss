@@ -1,0 +1,14 @@
+mat-list {
+  background: rgba(0, 0, 0, 0.2);
+  margin: 1rem 2rem;
+  max-width: 360px;
+}
+
+mat-list-item {
+  span {
+    font-size: 1rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}

@@ -12,6 +12,7 @@ import org.jboss.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequestScoped
@@ -25,7 +26,8 @@ public class CampaignService {
   @Inject
   private InteractionService interactionService;
 
-  @Inject UserService userService;
+  @Inject
+  private UserService userService;
 
   @Transactional
   public void createCampaign(CampaignDto campaignDto) {
@@ -48,6 +50,14 @@ public class CampaignService {
     return toDto(findCampaignOrThrowException(campaignId));
   }
 
+  @Transactional
+  public List<CampaignDto> getAllCampaigns() {
+    return campaignOrm.getByUserEmail(userService.getCurrentUserEmail())
+            .stream()
+            .map(this::toDto)
+            .collect(Collectors.toList());
+  }
+
   private CampaignDto toDto(Campaign campaign) {
     return CampaignDto.builder()
             .name(campaign.getName())
@@ -65,4 +75,5 @@ public class CampaignService {
     }
     return campaign;
   }
+
 }

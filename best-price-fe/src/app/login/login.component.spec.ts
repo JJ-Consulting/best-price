@@ -10,7 +10,7 @@ import {MaterialModule}          from "../material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 import {LoginComponent}  from './login.component';
-import {LoginService}    from "./login.service";
+import {LoginService}    from "@services";
 import {Observable}      from "rxjs/Observable";
 import {from}            from "rxjs/observable/from";
 import {Router}          from "@angular/router";

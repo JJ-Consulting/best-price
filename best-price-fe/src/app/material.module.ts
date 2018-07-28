@@ -4,7 +4,13 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatCardModule,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MatTableModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatDividerModule,
+  MatListModule,
+  MatMenuModule
 } from "@angular/material";
 
 
@@ -14,14 +20,26 @@ import {
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatDividerModule,
+    MatListModule,
+    MatMenuModule
   ],
   exports: [
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatDividerModule,
+    MatListModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

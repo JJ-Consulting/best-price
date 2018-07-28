@@ -1,0 +1,18 @@
+span#application-name {
+  margin-bottom: 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+button#profile-button {
+  min-width: inherit;
+  padding: 0 0.7rem;
+}
+
+button.profile-menu-button {
+  display: flex;
+  align-items: center;
+}
+
