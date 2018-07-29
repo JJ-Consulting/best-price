@@ -14,8 +14,9 @@ import {CampaignsComponent} from "./campaigns/campaigns.component";
 
 import {AuthHttpHeader}                from "./auth.http.header";
 import {CampaignService, LoginService} from "@services";
-import { SideBarComponent } from './side-bar/side-bar.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
+import {SideBarComponent}              from './side-bar/side-bar.component';
+import {ToolbarComponent}              from './toolbar/toolbar.component';
+import {AuthGuard}                     from "./auth-guard";
 
 @NgModule({
   declarations: [
@@ -35,13 +36,15 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
+      provide:  HTTP_INTERCEPTORS,
       useClass: AuthHttpHeader,
-      multi: true,
+      multi:    true,
     },
+    AuthGuard,
     LoginService,
     CampaignService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

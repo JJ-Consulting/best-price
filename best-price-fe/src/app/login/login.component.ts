@@ -69,9 +69,8 @@ export class LoginComponent implements OnInit {
   private onLogin(formModel): void {
     this.loginService.login(formModel.login, formModel.password)
       .subscribe((result: any) => {
-        localStorage.setItem('best-price-token', result.message);
         this.actionDisabled = false;
-        this.router.navigate(['campaigns']);
+        this.router.navigate(['campaigns', '2']);
       }, (error: any) => {
         this.actionDisabled = false;
         if (error.status === 401) {

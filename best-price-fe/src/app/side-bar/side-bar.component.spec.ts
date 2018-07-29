@@ -5,6 +5,9 @@ import {SideBarComponent} from './side-bar.component';
 import {MaterialModule}          from "../material.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule}     from "@angular/forms";
+import {LoginService}            from "@services";
+import {Observable}              from "rxjs/Observable";
+import {from}                    from "rxjs/observable/from";
 
 
 describe('SideBarComponent', () => {
@@ -14,6 +17,9 @@ describe('SideBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [SideBarComponent],
+      providers:    [
+        {provide: LoginService, useClass: MockLoginService}
+      ],
       imports:      [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule],
     }).compileComponents();
   }));
@@ -28,3 +34,9 @@ describe('SideBarComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+class MockLoginService {
+  get isLoggedIn(): Observable<boolean> {
+    return from([true]);
+  }
+}

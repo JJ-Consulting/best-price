@@ -38,8 +38,8 @@ describe('CampaignService', () => {
     // GIVEN
     localStorage.setItem('best-price-token', '42');
     const dummyCampaigns: Array<Campaign> = [
-      {name: 'Selling my car', price: null, startDate: new Date('2018-07-10T20:59:07+02:00'), endDate: null},
-      {name: 'finding a job', price: 42, startDate: new Date('2018-07-10T20:59:07+02:00'), endDate: new Date('2018-07-15T20:59:07+02:00')},
+      {name: 'Selling my car', price: null, startDate: new Date('2018-07-10T20:59:07+02:00'), endDate: null, currency: 'USD', interactions: []},
+      {name: 'finding a job', price: 42, startDate: new Date('2018-07-10T20:59:07+02:00'), endDate: new Date('2018-07-15T20:59:07+02:00'), currency: 'USD', interactions: []},
     ];
 
     // WHEN

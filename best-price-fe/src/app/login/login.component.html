@@ -1,17 +1,15 @@
 <div id="login-wrapper">
   <div id="login-form-wrapper">
-    <h1 class="mat-display-1">Login</h1>
+    <h1 id="login-header" class="mat-display-1">Login</h1>
 
-    <!-- TODO: login/create account via tabs  -->
-
-    <div id="tabs-wrapper">
+    <div id="tabs-wrapper" class="mat-elevation-z6">
       <div id="loginTabButton" class="mat-button" (click)="onLoginTabClick()"
            [ngClass]="{'tab-active': onLoginTab}">login</div>
       <div id="createAccountTabButton" class="mat-button" (click)="onCreateAccountTabClick()"
            [ngClass]="{'tab-active': !onLoginTab}">create account</div>
     </div>
 
-    <mat-card>
+    <mat-card class="mat-elevation-z6">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div *ngIf="!onLoginTab">
           <mat-form-field class="example-full-width">

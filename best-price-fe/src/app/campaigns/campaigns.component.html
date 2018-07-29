@@ -1,21 +1,36 @@
-<div id="campaign-wrapper">
-  <h1 id="interactions-header" class="mat-display-1">Interactions</h1>
+<h1 id="interactions-header" class="mat-display-1">Interactions</h1>
 
-  <div class="table-container mat-elevation-z8">
-    <mat-table #table [dataSource]="campaign.interactions">
+<div class="table-container mat-elevation-z6">
+  <mat-table #table [dataSource]="campaign.interactions">
 
-      <ng-container matColumnDef="date">
-        <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-        <mat-cell *matCellDef="let interaction">{{interaction.date | date:'M/d/yy'}}</mat-cell>
-      </ng-container>
+    <ng-container matColumnDef="firstName">
+      <mat-header-cell *matHeaderCellDef>First Name</mat-header-cell>
+      <mat-cell *matCellDef="let interaction">{{interaction.contact.firstName}}</mat-cell>
+    </ng-container>
 
-      <ng-container matColumnDef="price">
-        <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
-        <mat-cell *matCellDef="let interaction">{{interaction.price}}</mat-cell>
-      </ng-container>
+    <ng-container matColumnDef="lastName">
+      <mat-header-cell *matHeaderCellDef>Last Name</mat-header-cell>
+      <mat-cell *matCellDef="let interaction">{{interaction.contact.lastName}}</mat-cell>
+    </ng-container>
 
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-  </div>
+    <ng-container matColumnDef="company">
+      <mat-header-cell *matHeaderCellDef>Company</mat-header-cell>
+      <mat-cell *matCellDef="let interaction">{{interaction.contact.company}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
+      <mat-cell *matCellDef="let interaction">{{interaction.date | date:'M/d/yy'}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="price">
+      <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+      <mat-cell *matCellDef="let interaction">
+        <span class="mat-body-1">{{interaction.price | currency:campaign.currency}}</span>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </div>

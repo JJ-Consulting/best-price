@@ -1,9 +1,9 @@
-import {Component, OnInit}        from '@angular/core';
-import {CampaignService}          from "@services";
-import {Campaign}                 from "@models";
-import {Observable}               from "rxjs/Observable";
-import {ActivatedRoute, ParamMap} from "@angular/router";
-import {switchMap}                from "rxjs/operators";
+import {Component, OnInit}              from '@angular/core';
+import {CampaignService}                from "@services";
+import {Campaign, Contact, Interaction} from "@models";
+import {Observable}                     from "rxjs/Observable";
+import {ActivatedRoute, ParamMap}       from "@angular/router";
+import {switchMap}                      from "rxjs/operators";
 
 @Component({
   selector:    'app-campaigns',
@@ -12,7 +12,7 @@ import {switchMap}                from "rxjs/operators";
 })
 export class CampaignsComponent implements OnInit {
 
-  displayedColumns = ['date', 'price'];
+  displayedColumns   = ['firstName', 'lastName', 'company', 'date', 'price'];
   campaigns$: Observable<Array<Campaign>>;
   campaign: Campaign = new Campaign();
 
@@ -26,6 +26,11 @@ export class CampaignsComponent implements OnInit {
       switchMap((params: ParamMap) =>
         this.campaignService.getCampaign(params.get('id')))
     ).subscribe((campaign: Campaign) => {
+      const contact: Contact = new Contact;
+      contact.firstName      = "foo";
+      contact.lastName       = "bar";
+      contact.company        = "acme";
+      campaign.interactions.forEach((i: Interaction) => i.contact = contact);
       this.campaign = campaign;
     }, (error: any) => {
 

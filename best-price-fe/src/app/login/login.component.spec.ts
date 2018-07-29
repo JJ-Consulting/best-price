@@ -108,19 +108,6 @@ describe('LoginComponent', () => {
 
   describe('login', () => {
 
-
-    it('should store token into local storage', () => {
-      // GIVEN
-      localStorage.removeItem('best-price-token');
-      setLoginPassword();
-
-      // WHEN
-      component.onSubmit();
-
-      // THEN
-      expect(localStorage.getItem('best-price-token')).toBe('foobar');
-    });
-
     it('should open Mat Snack Bar on login fail', () => {
       // GIVEN
       spyOn(mockLoginService, 'login').and.returnValue(new ErrorObservable({status: 401}));

@@ -1,20 +1,49 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from "rxjs/Observable";
+import {Injectable}      from '@angular/core';
+import {HttpClient}      from '@angular/common/http';
+import {Observable}      from "rxjs/Observable";
+import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {share}           from "rxjs/operators";
+import {SimpleMessage}   from "@models";
+import {Router}          from "@angular/router";
 
 @Injectable()
 export class LoginService {
 
-  private static readonly USER_API_PATH: string = '/api/users/';
+  static readonly USER_API_PATH: string = '/api/users/';
 
-  constructor(private http: HttpClient) {
+  private loggedIn: BehaviorSubject<boolean>;
+
+  constructor(private http: HttpClient, private router: Router) {
+    if (localStorage.getItem('best-price-token')) {
+      this.loggedIn = new BehaviorSubject<boolean>(true);
+    } else {
+      this.loggedIn = new BehaviorSubject<boolean>(false);
+    }
   }
 
-  login(login: string, password: string): Observable<any> {
-    return this.http.post(LoginService.USER_API_PATH + 'login', {login, password, email: 'foo@mail.com'})
+  get isLoggedIn(): Observable<boolean> {
+    return this.loggedIn.asObservable();
   }
 
-  createUser(email: string, login: string, password: string) {
+  login(login: string, password: string): Observable<SimpleMessage> {
+    const result: Observable<SimpleMessage> = this.http.post<SimpleMessage>(LoginService.USER_API_PATH + 'login', {login, password})
+      .pipe(share());
+
+    result.subscribe((result: SimpleMessage) => {
+      localStorage.setItem('best-price-token', result.message);
+      this.loggedIn.next(true);
+    });
+
+    return result;
+  }
+
+  logout(): void {
+    localStorage.removeItem("best-price-token");
+    this.loggedIn.next(false);
+    this.router.navigate(['login']);
+  }
+
+  createUser(email: string, login: string, password: string): Observable<any> {
     return this.http.post(LoginService.USER_API_PATH, {login, email, password});
   }
 }

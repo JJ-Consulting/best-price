@@ -5,5 +5,6 @@ export class Campaign {
   startDate:    Date;
   endDate:      Date;
   price:        number;
+  currency:     string;
   interactions: Array<Interaction> = [];
 }

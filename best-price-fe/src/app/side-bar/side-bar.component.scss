@@ -1,6 +1,7 @@
+@import "../common";
+
 mat-list {
   background: rgba(0, 0, 0, 0.2);
-  margin: 1rem 2rem;
   max-width: 360px;
 }
 
@@ -10,5 +11,17 @@ mat-list-item {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    cursor: pointer;
+
+    &:hover {
+      color: map_get($rally-green-palette, A500);
+    }
   }
+}
+
+button {
+  margin-left: auto;
+  margin-right: auto;
+  min-width: inherit;
+  padding: 0 0.7rem;
 }
