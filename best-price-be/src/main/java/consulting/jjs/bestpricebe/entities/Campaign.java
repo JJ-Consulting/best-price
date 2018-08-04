@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -44,6 +45,16 @@ public class Campaign {
   @Getter
   @Setter
   private String currency;
+
+  @Column(name = "START_DATE", nullable = false)
+  @Getter
+  @Setter
+  private Date startDate;
+
+  @Column(name = "END_DATE")
+  @Getter
+  @Setter
+  private Date endDate;
 
   @OneToMany(mappedBy = "campaign", fetch = FetchType.LAZY)
   @Getter

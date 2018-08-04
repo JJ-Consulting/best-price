@@ -1,12 +1,19 @@
 <mat-list *ngIf="userLoggedIn$ | async">
   <h3 mat-subheader>Opened Campaigns</h3>
-  <mat-list-item><span>Campagne A</span></mat-list-item>
-  <mat-list-item><span>Campagne B</span></mat-list-item>
-  <mat-list-item><span>Campagne C</span></mat-list-item>
+  <mat-list-item *ngFor="let openedCampaign of openedCampaigns">
+    <span (click)="onCampaignClick(openedCampaign.id)">{{openedCampaign.name}}</span>
+  </mat-list-item>
+
   <mat-list-item>
     <button mat-button color="accent"><mat-icon class="mat-icon material-icons">add_circle</mat-icon></button>
   </mat-list-item>
+
   <mat-divider></mat-divider>
+
   <h3 mat-subheader>Closed Campaigns</h3>
-  <mat-list-item><span>Campagne Z</span></mat-list-item>
+  <mat-list-item *ngFor="let closedCampaign of closedCampaigns">
+    <span (click)="onCampaignClick(closedCampaign.id)">{{closedCampaign.name}}</span>
+  </mat-list-item>
+
+
 </mat-list>

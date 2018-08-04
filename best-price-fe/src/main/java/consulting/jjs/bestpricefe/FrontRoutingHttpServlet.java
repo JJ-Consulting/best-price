@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/campaigns", "/login"})
+@WebServlet(urlPatterns = {"/campaigns/*", "/login"})
 public class FrontRoutingHttpServlet extends HttpServlet {
 
   @Override

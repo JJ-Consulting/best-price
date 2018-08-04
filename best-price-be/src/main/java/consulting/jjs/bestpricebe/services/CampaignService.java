@@ -35,6 +35,8 @@ public class CampaignService {
     Campaign campaign = new Campaign();
     campaign.setName(campaignDto.getName());
     campaign.setCurrency(campaignDto.getCurrency());
+    campaign.setStartDate(campaignDto.getStartDate());
+    campaign.setEndDate(campaignDto.getEndDate());
     currentUser.addCampaign(campaign);
 
     campaignOrm.create(campaign);
@@ -60,8 +62,11 @@ public class CampaignService {
 
   private CampaignDto toDto(Campaign campaign) {
     return CampaignDto.builder()
+            .id(campaign.getId())
             .name(campaign.getName())
             .currency(campaign.getCurrency())
+            .startDate(campaign.getStartDate())
+            .endDate(campaign.getEndDate())
             .interactions(campaign.getInteractions().stream()
                     .map(interactionService::toDto)
                     .collect(Collectors.toList()))
@@ -69,11 +74,11 @@ public class CampaignService {
   }
 
   public Campaign findCampaignOrThrowException(Integer campaignId) throws TechnicalException {
-    Campaign campaign;
-    if (campaignId == null || ((campaign = campaignOrm.getByIdAndUserEmail(campaignId, userService.getCurrentUserEmail())) == null)) {
-      throw new ResourceNotFoundException("Unable to find campaign with id " + campaignId);
+    if (campaignId == null) {
+      throw new IllegalArgumentException("campaignId cannot be null");
     }
-    return campaign;
+
+    return campaignOrm.getByIdAndUserEmail(campaignId, userService.getCurrentUserEmail());
   }
 
 }
