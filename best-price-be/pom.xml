@@ -78,6 +78,21 @@
       <groupId>org.wildfly.swarm</groupId>
       <artifactId>jpa</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>cdi</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>arquillian</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.wildfly.swarm</groupId>
+      <artifactId>bean-validation</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.postgresql</groupId>
@@ -86,9 +101,12 @@
     </dependency>
 
     <dependency>
-      <groupId>org.wildfly.swarm</groupId>
-      <artifactId>cdi</artifactId>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.197</version>
+      <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>

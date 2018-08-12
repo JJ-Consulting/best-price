@@ -1,11 +1,15 @@
-package consulting.jjs.bestpricebe.resources;
+package consulting.jjs.bestpricebe;
 
+import consulting.jjs.bestpricebe.filter.ConstraintViolationExceptionMapper;
 import consulting.jjs.bestpricebe.filter.DefaultExceptionMapper;
 import consulting.jjs.bestpricebe.filter.JWTTokenNeededFilter;
 import consulting.jjs.bestpricebe.filter.RequestLoggingFilter;
 import consulting.jjs.bestpricebe.filter.ResourceAlreadyExistsExceptionMapper;
 import consulting.jjs.bestpricebe.filter.ResourceNotFoundMapper;
 import consulting.jjs.bestpricebe.filter.UnauthorizedExceptionMapper;
+import consulting.jjs.bestpricebe.resources.CampaignResource;
+import consulting.jjs.bestpricebe.resources.InteractionResource;
+import consulting.jjs.bestpricebe.resources.UserResource;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
@@ -19,7 +23,6 @@ public class ApiConfig extends Application {
   public Set<Class<?>> getClasses() {
     return new HashSet<>(Arrays.asList(
             // End points
-            HelloWorldEndpoint.class,
             CampaignResource.class,
             InteractionResource.class,
             UserResource.class,
@@ -29,6 +32,7 @@ public class ApiConfig extends Application {
             ResourceNotFoundMapper.class,
             UnauthorizedExceptionMapper.class,
             ResourceAlreadyExistsExceptionMapper.class,
+            ConstraintViolationExceptionMapper.class,
 
             // Filters
             RequestLoggingFilter.class,

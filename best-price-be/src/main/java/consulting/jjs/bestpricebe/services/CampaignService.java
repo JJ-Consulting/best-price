@@ -3,22 +3,24 @@ package consulting.jjs.bestpricebe.services;
 import consulting.jjs.bestpricebe.dto.CampaignDto;
 import consulting.jjs.bestpricebe.entities.Campaign;
 import consulting.jjs.bestpricebe.entities.User;
-import consulting.jjs.bestpricebe.exception.ResourceNotFoundException;
 import consulting.jjs.bestpricebe.exception.TechnicalException;
 import consulting.jjs.bestpricebe.orm.CampaignCrud;
-import consulting.jjs.bestpricebe.resources.HelloWorldEndpoint;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequestScoped
 public class CampaignService {
 
-  private static Logger LOG = Logger.getLogger(HelloWorldEndpoint.class);
+  private static Logger LOG = Logger.getLogger(CampaignService.class);
 
   @Inject
   private CampaignCrud campaignOrm;
@@ -39,7 +41,24 @@ public class CampaignService {
     campaign.setEndDate(campaignDto.getEndDate());
     currentUser.addCampaign(campaign);
 
+    validateCampaign(campaign);
     campaignOrm.create(campaign);
+  }
+
+  /**
+   * {@link javax.persistence.EntityManager#persist(Object)} doesn't throw Exception because
+   * of the way the entity manager lifecycle is managed. The validation exception is thrown
+   * by this method.
+   *
+   * @param campaign the campaign to validate
+   */
+  private void validateCampaign(Campaign campaign) {
+    Set<ConstraintViolation<Campaign>> constraints = Validation.buildDefaultValidatorFactory()
+            .getValidator()
+            .validate(campaign);
+    if (!constraints.isEmpty()) {
+      throw new ConstraintViolationException(constraints);
+    }
   }
 
   @Transactional

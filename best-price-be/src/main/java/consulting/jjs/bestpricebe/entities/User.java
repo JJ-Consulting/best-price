@@ -14,12 +14,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Table(name = "BP_USER")
 @NamedQuery(name = "User.getByEmail", query = "SELECT u FROM User u where u.email = :email")
-public class User {
+public class User implements Serializable {
 
   @Id
   @SequenceGenerator(name = "bp_user_id_seq",

@@ -5,6 +5,7 @@ import consulting.jjs.bestpricebe.exception.TechnicalException;
 import consulting.jjs.bestpricebe.filter.JWTTokenNeeded;
 import consulting.jjs.bestpricebe.filter.Logged;
 import consulting.jjs.bestpricebe.services.CampaignService;
+import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -23,6 +24,8 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class CampaignResource {
+
+  private static Logger LOG = Logger.getLogger(CampaignResource.class);
 
   @Inject
   private CampaignService campaignService;

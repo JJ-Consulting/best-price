@@ -18,13 +18,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "CAMPAIGN")
-public class Campaign {
+public class Campaign implements Serializable {
 
   @Id
   @SequenceGenerator(name = "campaign_id_seq",
@@ -39,6 +41,7 @@ public class Campaign {
   @Column(name = "NAME")
   @Getter
   @Setter
+  @NotNull
   private String name;
 
   @Column(name = "CURRENCY", length = 3)
@@ -49,11 +52,13 @@ public class Campaign {
   @Column(name = "START_DATE", nullable = false)
   @Getter
   @Setter
+  @Past
   private Date startDate;
 
   @Column(name = "END_DATE")
   @Getter
   @Setter
+  @Past
   private Date endDate;
 
   @OneToMany(mappedBy = "campaign", fetch = FetchType.LAZY)

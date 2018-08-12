@@ -15,12 +15,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "INTERACTION")
-public class Interaction {
+public class Interaction implements Serializable {
 
   public static enum InteractionType {
     PHONE, EMAIL, SOCIAL_NETWORK, MEETING

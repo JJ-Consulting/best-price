@@ -13,13 +13,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Table(name = "CONTACT")
-public class Contact {
+public class Contact implements Serializable {
 
   @Id
   @SequenceGenerator(name="contact_id_seq",
