@@ -12,15 +12,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
-import javax.transaction.UserTransaction;
 import javax.validation.ConstraintViolationException;
 import java.time.Instant;
 import java.util.Date;
@@ -29,12 +25,6 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(Arquillian.class)
 public class CampaignTest extends AbstractInContainerTest {
-
-  @PersistenceContext(unitName = "best-price-pu", type = PersistenceContextType.EXTENDED)
-  private EntityManager em;
-
-  @Inject
-  private UserTransaction transaction;
 
   private static boolean initialized = false;
 
@@ -65,8 +55,9 @@ public class CampaignTest extends AbstractInContainerTest {
   }
 
   @Test
-  public void shouldCreateCampaign() {
+  public void shouldInsertCampaignInDB() throws Exception {
     // GIVEN
+    transaction.begin();
     CampaignDto campaignDto = CampaignDto.builder()
             .name("foo")
             .currency("USD")
@@ -74,9 +65,9 @@ public class CampaignTest extends AbstractInContainerTest {
             .endDate(Date.from(Instant.parse("2018-08-10T15:30:30Z")))
             .build();
 
-
     // WHEN
     campaignResource.createCampaign(campaignDto);
+    transaction.commit();
 
     // THEN
     em.clear();
