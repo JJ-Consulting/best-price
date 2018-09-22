@@ -5,7 +5,6 @@ import consulting.jjs.bestpricebe.dto.UserDto;
 import consulting.jjs.bestpricebe.entities.User;
 import consulting.jjs.bestpricebe.exception.UnauthorizedException;
 import consulting.jjs.bestpricebe.resources.UserResource;
-import consulting.jjs.bestpricebe.services.UserService;
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +19,6 @@ public class UserTest extends AbstractInContainerTest {
 
   @Inject
   private UserResource  userResource;
-
-  @Inject
-  private UserService userService;
 
   @Test
   public void shouldInsertUserInDB() throws Exception {

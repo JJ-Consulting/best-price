@@ -13,6 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("/interactions")
 @JWTTokenNeeded
@@ -23,8 +24,9 @@ public class InteractionResource {
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  public void createInteraction(InteractionDto interaction) throws TechnicalException {
+  public Response createInteraction(InteractionDto interaction) throws TechnicalException {
     interactionService.create(interaction);
+    return Response.status(Response.Status.CREATED).build();
   }
 
   @Path("/{id}")

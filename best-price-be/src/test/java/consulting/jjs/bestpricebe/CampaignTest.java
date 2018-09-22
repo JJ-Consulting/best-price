@@ -98,4 +98,37 @@ public class CampaignTest extends AbstractInContainerTest {
     campaignResource.createCampaign(campaignDto);
   }
 
+  @Test
+  public void getLatestCampaign() throws Exception {
+    transaction.begin();
+    User user = em.createQuery("SELECT u from User u where u.login = 'foo'", User.class).getSingleResult();
+    Campaign c1 = new Campaign();
+    c1.setName("a");
+    c1.setCurrency("USD");
+    c1.setStartDate(Date.from(Instant.parse("2018-09-20T12:58:32.00Z")));
+    c1.setUser(user);
+    em.persist(c1);
+
+    Campaign c2 = new Campaign();
+    c2.setName("b");
+    c2.setCurrency("USD");
+    c2.setStartDate(Date.from(Instant.parse("2018-09-22T12:58:32.00Z")));
+    c2.setUser(user);
+    em.persist(c2);
+
+    Campaign c3 = new Campaign();
+    c3.setName("c");
+    c3.setCurrency("USD");
+    c3.setStartDate(Date.from(Instant.parse("2018-09-18T12:58:32.00Z")));
+    c3.setUser(user);
+    em.persist(c3);
+    transaction.commit();
+
+    // WHEN
+    CampaignDto latestCampaign = campaignResource.getLatestCampaign();
+
+    // THEN
+    assertEquals("Latest campaign should be c2", "b", latestCampaign.getName());
+  }
+
 }

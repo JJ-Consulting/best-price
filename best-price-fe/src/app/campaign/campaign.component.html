@@ -1,0 +1,28 @@
+<h1 class="mat-display-1">Start a Campaign</h1>
+<form [formGroup]="campaignForm" (ngSubmit)="onSubmit()">
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Name" formControlName="name" autocomplete="off">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Currency" formControlName="currency" autocomplete="off">
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="Start Date" formControlName="startDate" autocomplete="off" type="date">
+    </mat-form-field>
+  </div>
+
+  <div id="buttons-wrapper">
+    <button mat-button mat-raised-button color="accent" type="submit"
+            [disabled]="campaignForm.pristine || actionDisabled">Create
+    </button>
+    <button mat-button color="accent" type="button" (click)="onCancel()">Cancel</button>
+  </div>
+</form>

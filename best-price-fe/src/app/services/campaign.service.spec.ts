@@ -5,7 +5,7 @@ import {HttpClientTestingModule, HttpTestingController} from "@angular/common/ht
 import {CampaignService}                from '@services';
 import {Campaign}                       from "@models";
 import {HTTP_INTERCEPTORS, HttpRequest} from "@angular/common/http";
-import {AuthHttpHeader}                 from "../auth.http.header";
+import {AuthHttpHeader}                 from "../auth/auth.http.header";
 
 describe('CampaignService', () => {
   let injector: TestBed;

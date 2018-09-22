@@ -8,25 +8,28 @@ import {ReactiveFormsModule}                 from "@angular/forms";
 
 import {appRoutes} from "./routing.module";
 
-import {AppComponent}       from './app.component';
-import {LoginComponent}     from './login/login.component';
-import {CampaignsComponent} from "./campaigns/campaigns.component";
+import {AppComponent}          from './app.component';
+import {LoginComponent}        from './login/login.component';
+import {InteractionsComponent} from "./interactions/interactions.component";
 
-import {AuthHttpHeader}                from "./auth.http.header";
+import {AuthHttpHeader}                from "./auth/auth.http.header";
+import {UnauthorizedInterceptor}       from "./auth/unauthorized-interceptor";
 import {CampaignService, LoginService} from "@services";
 import {SideBarComponent}              from './side-bar/side-bar.component';
 import {ToolbarComponent}              from './toolbar/toolbar.component';
-import {AuthGuard}                     from "./auth-guard";
+import {AuthGuard}                     from "./auth/auth-guard";
+import {CampaignComponent}             from './campaign/campaign.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    CampaignsComponent,
+    InteractionsComponent,
     SideBarComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    CampaignComponent
   ],
-  imports: [
+  imports:      [
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot(appRoutes),
@@ -34,17 +37,25 @@ import {AuthGuard}                     from "./auth-guard";
     MaterialModule,
     ReactiveFormsModule
   ],
-  providers: [
+  providers:    [
     {
       provide:  HTTP_INTERCEPTORS,
       useClass: AuthHttpHeader,
+      multi:    true,
+    },
+    {
+      provide:  HTTP_INTERCEPTORS,
+      useClass: UnauthorizedInterceptor,
       multi:    true,
     },
     AuthGuard,
     LoginService,
     CampaignService
   ],
-  bootstrap: [AppComponent]
+  bootstrap:    [AppComponent],
+  entryComponents: [
+    CampaignComponent
+  ]
 })
 export class AppModule {
 }

@@ -3,6 +3,8 @@ import {Observable}                    from "rxjs/Observable";
 import {CampaignService, LoginService} from "@services";
 import {Campaign}                      from "@models";
 import {Router}                        from "@angular/router";
+import {CampaignComponent}             from "../campaign/campaign.component";
+import {MatDialog}                     from "@angular/material";
 
 @Component({
   selector:    'app-side-bar',
@@ -15,7 +17,8 @@ export class SideBarComponent implements OnInit {
   openedCampaigns: Array<Campaign> = [];
   closedCampaigns: Array<Campaign> = [];
 
-  constructor(private loginService: LoginService, private campaignService: CampaignService, private router: Router) {
+  constructor(private loginService: LoginService, private campaignService: CampaignService, private router: Router,
+              private dialog: MatDialog) {
     this.userLoggedIn$ = this.loginService.isLoggedIn;
   }
 
@@ -35,5 +38,15 @@ export class SideBarComponent implements OnInit {
 
   onCampaignClick(id: number): void {
     this.router.navigate(['campaigns', id]);
+  }
+
+  onNewCamapignClick(): void {
+    const dialogRef = this.dialog.open(CampaignComponent, {
+      width: '518px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed', result);
+    });
   }
 }

@@ -1,0 +1,17 @@
+h1 {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+mat-form-field {
+  width: 350px;
+}
+
+form div {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+div#buttons-wrapper {
+  margin-top: 18px;
+}

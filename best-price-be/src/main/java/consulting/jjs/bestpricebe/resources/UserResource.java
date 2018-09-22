@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -37,11 +38,12 @@ public class UserResource {
 
   @POST
   @Consumes(MediaType.APPLICATION_JSON)
-  public void create(UserDto user) throws FunctionalException {
+  public Response create(UserDto user) throws FunctionalException {
     if (user.getLogin() == null) {
       user.setLogin(user.getEmail());
     }
     userService.createUser(user);
+    return Response.status(Response.Status.CREATED).build();
   }
 
   @POST

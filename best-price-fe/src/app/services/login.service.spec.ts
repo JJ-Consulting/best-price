@@ -1,15 +1,20 @@
-import {LoginService}                  from "@services";
+import {LoginService}                                   from "@services";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {getTestBed, TestBed}                            from "@angular/core/testing";
-import {AuthHttpHeader}                                 from "../auth.http.header";
+import {AuthHttpHeader}                                 from "../auth/auth.http.header";
 import {HTTP_INTERCEPTORS, HttpRequest}                 from "@angular/common/http";
 import {Router}                                         from "@angular/router";
 
+class RouterMock {
+  navigate(): void {
+  }
+}
 
 describe('LoginService', () => {
   let injector: TestBed;
   let service: LoginService;
   let httpMock: HttpTestingController;
+  let routerMock: RouterMock = new RouterMock();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -20,7 +25,7 @@ describe('LoginService', () => {
           useClass: AuthHttpHeader,
           multi: true,
         },
-        {provide: Router, useClass: MockRouter},
+        {provide: Router, useValue: routerMock},
         LoginService
       ],
     });
@@ -81,16 +86,13 @@ describe('LoginService', () => {
   it('should remove the token on logout', () => {
     // GIVEN
     localStorage.setItem('best-price-token', '42');
+    spyOn(routerMock, 'navigate');
 
     // WHEN
     service.logout();
 
     // THEN
     expect(localStorage.getItem('best-price-token')).toBeFalsy();
+    expect(routerMock.navigate).toHaveBeenCalledWith(['login']);
   });
 });
-
-class MockRouter {
-  navigate(): void {
-  }
-}

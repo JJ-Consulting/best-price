@@ -3,6 +3,7 @@ package consulting.jjs.bestpricebe.services;
 import consulting.jjs.bestpricebe.dto.CampaignDto;
 import consulting.jjs.bestpricebe.entities.Campaign;
 import consulting.jjs.bestpricebe.entities.User;
+import consulting.jjs.bestpricebe.exception.ResourceNotFoundException;
 import consulting.jjs.bestpricebe.exception.TechnicalException;
 import consulting.jjs.bestpricebe.orm.CampaignCrud;
 import org.jboss.logging.Logger;
@@ -13,7 +14,9 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validation;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -98,6 +101,18 @@ public class CampaignService {
     }
 
     return campaignOrm.getByIdAndUserEmail(campaignId, userService.getCurrentUserEmail());
+  }
+
+  @Transactional
+  public CampaignDto getLastCampaign() throws ResourceNotFoundException {
+    Optional<Campaign> latest = campaignOrm.getByUserEmail(userService.getCurrentUserEmail())
+            .stream()
+            .min(Comparator.comparing(Campaign::getStartDate).reversed());
+
+    if (!latest.isPresent()) {
+      throw new ResourceNotFoundException("There is no existing campaign");
+    }
+    return toDto(latest.get());
   }
 
 }
