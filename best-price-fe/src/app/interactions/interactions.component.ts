@@ -22,6 +22,7 @@ export class InteractionsComponent implements OnInit {
       switchMap((params: ParamMap) =>
         this.campaignService.getCampaign(params.get('id')))
     ).subscribe((campaign: Campaign) => {
+      this.campaignService.notifyCampaignLoaded(campaign.id);
       const contact: Contact = new Contact;
       contact.firstName      = "foo";
       contact.lastName       = "bar";

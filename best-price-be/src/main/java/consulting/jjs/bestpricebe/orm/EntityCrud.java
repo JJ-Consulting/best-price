@@ -6,7 +6,7 @@ import javax.persistence.PersistenceContextType;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-public class EntityCrud<E, I> {
+public abstract class EntityCrud<E, I> {
 
   @PersistenceContext(unitName = "best-price-pu", type = PersistenceContextType.EXTENDED)
   protected EntityManager entityManager;
@@ -31,6 +31,10 @@ public class EntityCrud<E, I> {
 
   public void delete(E entity) {
     entityManager.remove(entity);
+  }
+
+  public void flush() {
+    entityManager.flush();
   }
 
   public List<E> getList() throws Exception {

@@ -1,7 +1,9 @@
 <mat-list *ngIf="userLoggedIn$ | async">
   <h3 mat-subheader>Opened Campaigns</h3>
   <mat-list-item *ngFor="let openedCampaign of openedCampaigns">
-    <span (click)="onCampaignClick(openedCampaign.id)">{{openedCampaign.name}}</span>
+    <span (click)="onCampaignClick(openedCampaign.id)" [ngClass]="{'active': openedCampaign.current}">
+      {{openedCampaign.name}}
+    </span>
   </mat-list-item>
 
   <mat-list-item>
@@ -14,8 +16,8 @@
 
   <h3 mat-subheader>Closed Campaigns</h3>
   <mat-list-item *ngFor="let closedCampaign of closedCampaigns">
-    <span (click)="onCampaignClick(closedCampaign.id)">{{closedCampaign.name}}</span>
+    <span (click)="onCampaignClick(closedCampaign.id)" [ngClass]="{'active': closedCampaign.current}">
+      {{closedCampaign.name}}
+    </span>
   </mat-list-item>
-
-
 </mat-list>

@@ -12,6 +12,7 @@ import {Campaign}                      from "@models";
 import {By}                            from "@angular/platform-browser";
 import {DebugElement}                  from "@angular/core";
 import {Router}                        from "@angular/router";
+import {MatDialog}                     from "@angular/material";
 
 class MockLoginService {
   get isLoggedIn(): Observable<boolean> {
@@ -20,6 +21,7 @@ class MockLoginService {
 }
 
 class MockCampaignService {
+  campaignLoaded = {subscribe: (callback: ((id: number) => {})) => callback(42)};
   getCampaigns(): Observable<Array<Campaign>> {
     return from([[
       {id: 1, name: 'Selling my car', price: null, startDate: new Date('2018-07-10T20:59:07+02:00'), endDate: null, currency: 'USD', interactions: []},
@@ -33,11 +35,20 @@ class MockRouter {
   navigate(p: Array<any>): void {}
 }
 
+class MockMatDialog {
+  open(): any {
+    return {
+      afterClosed: () => from([42])
+    }
+  }
+}
+
 describe('SideBarComponent', () => {
   let component: SideBarComponent;
   let fixture: ComponentFixture<SideBarComponent>;
   const mockCampaignService: MockCampaignService = new MockCampaignService();
   const mockRouter: MockRouter                   = new MockRouter();
+  const mockMatDialog: MockMatDialog             = new MockMatDialog();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -45,7 +56,8 @@ describe('SideBarComponent', () => {
       providers:    [
         {provide: LoginService,    useClass: MockLoginService},
         {provide: CampaignService, useValue: mockCampaignService},
-        {provide: Router,          useValue: mockRouter}
+        {provide: Router,          useValue: mockRouter},
+        {provide: MatDialog,       useValue: mockMatDialog}
       ],
       imports:      [ReactiveFormsModule, MaterialModule, BrowserAnimationsModule],
     }).compileComponents();
@@ -81,5 +93,18 @@ describe('SideBarComponent', () => {
 
     // THEN
     expect(mockRouter.navigate).toHaveBeenCalledWith(['campaigns', 3]);
+  }));
+
+  it('should navigate to the newly created campaign', fakeAsync(() => {
+    // GIVEN
+    spyOn(mockRouter, 'navigate');
+
+    // WHEN
+    fixture.detectChanges();
+    const addButton: DebugElement = fixture.debugElement.query(By.css('mat-list-item button'));
+    addButton.triggerEventHandler('click', null);
+
+    // THEN
+    expect(mockRouter.navigate).toHaveBeenCalledWith(['campaigns', 42]);
   }));
 });

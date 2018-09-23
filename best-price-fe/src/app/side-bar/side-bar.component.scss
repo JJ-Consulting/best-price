@@ -13,7 +13,8 @@ mat-list-item {
     white-space: nowrap;
     cursor: pointer;
 
-    &:hover {
+    &:hover,
+    &.active {
       color: map_get($rally-green-palette, A500);
     }
   }

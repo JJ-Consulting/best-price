@@ -1,4 +1,4 @@
-import {TestBed, inject, getTestBed} from '@angular/core/testing';
+import {TestBed, getTestBed} from '@angular/core/testing';
 
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 
@@ -14,12 +14,12 @@ describe('CampaignService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports:   [HttpClientTestingModule],
       providers: [
         {
-          provide: HTTP_INTERCEPTORS,
+          provide:  HTTP_INTERCEPTORS,
           useClass: AuthHttpHeader,
-          multi: true,
+          multi:    true,
         },
         CampaignService
       ],
@@ -38,8 +38,24 @@ describe('CampaignService', () => {
     // GIVEN
     localStorage.setItem('best-price-token', '42');
     const dummyCampaigns: Array<Campaign> = [
-      {id: 1, name: 'Selling my car', price: null, startDate: new Date('2018-07-10T20:59:07+02:00'), endDate: null, currency: 'USD', interactions: []},
-      {id: 2, name: 'finding a job', price: 42, startDate: new Date('2018-07-10T20:59:07+02:00'), endDate: new Date('2018-07-15T20:59:07+02:00'), currency: 'USD', interactions: []},
+      {
+        id:           1,
+        name:         'Selling my car',
+        price:        null,
+        startDate:    new Date('2018-07-10T20:59:07+02:00'),
+        endDate:      null,
+        currency:     'USD',
+        interactions: []
+      },
+      {
+        id:           2,
+        name:         'finding a job',
+        price:        42,
+        startDate:    new Date('2018-07-10T20:59:07+02:00'),
+        endDate:      new Date('2018-07-15T20:59:07+02:00'),
+        currency:     'USD',
+        interactions: []
+      },
     ];
 
     // WHEN
@@ -53,5 +69,28 @@ describe('CampaignService', () => {
         && request.url === CampaignService.CAMPAIGN_URL
         && request.headers.get('Authorization') === 'Bearer 42';
     }).flush(dummyCampaigns);
+  });
+
+  it('should get the campaign having the given ID', () => {
+    // TODO
+  });
+
+  it('should create the given campaign', () => {
+    const campaign: Campaign = new Campaign();
+
+    campaign.name      = 'foobar';
+    campaign.currency  = 'USD';
+    campaign.startDate = new Date();
+
+    service.createCampaign(campaign).subscribe();
+
+    // GIVEN
+    httpMock.expectOne((request: HttpRequest<any>) => {
+      expect(request.body.name).toBe(campaign.name);
+      expect(request.body.currency).toBe(campaign.currency);
+      expect(request.body.startDate.toISOString()).toBe(campaign.startDate.toISOString());
+      return request.method == 'POST'
+        && request.url === CampaignService.CAMPAIGN_URL;
+    }).flush({});
   });
 });

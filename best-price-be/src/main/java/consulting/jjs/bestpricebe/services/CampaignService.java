@@ -35,17 +35,18 @@ public class CampaignService {
   private UserService userService;
 
   @Transactional
-  public void createCampaign(CampaignDto campaignDto) {
+  public CampaignDto createCampaign(CampaignDto campaignDto) {
     User currentUser = userService.getCurrentUser();
     Campaign campaign = new Campaign();
     campaign.setName(campaignDto.getName());
     campaign.setCurrency(campaignDto.getCurrency());
     campaign.setStartDate(campaignDto.getStartDate());
-    campaign.setEndDate(campaignDto.getEndDate());
     currentUser.addCampaign(campaign);
 
     validateCampaign(campaign);
     campaignOrm.create(campaign);
+    campaignOrm.flush(); // to get the ID from DB
+    return toDto(campaign);
   }
 
   /**

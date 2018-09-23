@@ -5,6 +5,7 @@ import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {share}           from "rxjs/operators";
 import {SimpleMessage}   from "@models";
 import {Router}          from "@angular/router";
+import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 @Injectable()
 export class LoginService {
@@ -26,13 +27,14 @@ export class LoginService {
   }
 
   login(login: string, password: string): Observable<SimpleMessage> {
-    const result: Observable<SimpleMessage> = this.http.post<SimpleMessage>(LoginService.USER_API_PATH + 'login', {login, password})
+    const result: Observable<SimpleMessage> = this.http
+      .post<SimpleMessage>(LoginService.USER_API_PATH + 'login', {login, password})
       .pipe(share());
 
     result.subscribe((result: SimpleMessage) => {
       localStorage.setItem('best-price-token', result.message);
       this.loggedIn.next(true);
-    });
+    }, (error: any) => new ErrorObservable(error));
 
     return result;
   }

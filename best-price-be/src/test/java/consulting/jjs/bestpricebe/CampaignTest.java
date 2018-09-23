@@ -22,6 +22,7 @@ import java.time.Instant;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(Arquillian.class)
 public class CampaignTest extends AbstractInContainerTest {
@@ -62,20 +63,19 @@ public class CampaignTest extends AbstractInContainerTest {
             .name("foo")
             .currency("USD")
             .startDate(Date.from(Instant.parse("2018-07-05T15:30:30Z")))
-            .endDate(Date.from(Instant.parse("2018-08-10T15:30:30Z")))
             .build();
 
     // WHEN
-    campaignResource.createCampaign(campaignDto);
+    CampaignDto campaignResult = campaignResource.createCampaign(campaignDto);
     transaction.commit();
 
     // THEN
     em.clear();
+    assertNotNull("it should return newly created campaign id", campaignResult.getId());
     Campaign campaign = em.createQuery("select c from Campaign c where c.name = 'foo'", Campaign.class).getSingleResult();
     assertEquals(campaignDto.getName(), campaign.getName());
     assertEquals(campaignDto.getCurrency(), campaign.getCurrency());
     assertEquals(campaignDto.getStartDate(), campaign.getStartDate());
-    assertEquals(campaignDto.getEndDate(), campaign.getEndDate());
   }
 
   /**

@@ -16,7 +16,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/campaigns")
@@ -32,9 +31,8 @@ public class CampaignResource {
   private CampaignService campaignService;
 
   @POST
-  public Response createCampaign(CampaignDto campaignDto) {
-    campaignService.createCampaign(campaignDto);
-    return Response.status(Response.Status.CREATED).build();
+  public CampaignDto createCampaign(CampaignDto campaignDto) {
+    return campaignService.createCampaign(campaignDto);
   }
 
   @GET

@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -63,7 +64,7 @@ public class Campaign implements Serializable {
 
   @OneToMany(mappedBy = "campaign", fetch = FetchType.LAZY)
   @Getter
-  public List<Interaction> interactions;
+  public List<Interaction> interactions = new ArrayList<>();
 
   @ManyToMany(cascade = {
           CascadeType.PERSIST,

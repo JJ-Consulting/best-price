@@ -56,7 +56,6 @@ describe('LoginComponent', () => {
   });
 
   describe("Tab switching", () => {
-
     const clickOnButtonWithId = (id: string) => {
       let button = fixture.debugElement.query(By.css('#' + id));
       button.triggerEventHandler('click', null);
@@ -76,8 +75,7 @@ describe('LoginComponent', () => {
 
     it('should go to CREATE ACCOUNT tab copying login', fakeAsync(() => {
       // GIVEN
-      let login = component.loginForm.controls['login'];
-      login.setValue('foobar');
+      component.loginForm.controls['login'].setValue('foobar');
 
       // WHEN
       clickOnButtonWithId('createAccountTabButton');
@@ -88,8 +86,7 @@ describe('LoginComponent', () => {
 
     it('should go to CREATE ACCOUNT tab copying login to email field', fakeAsync(() => {
       // GIVEN
-      let login = component.loginForm.controls['login'];
-      login.setValue('foobar@mail.com');
+      component.loginForm.controls['login'].setValue('foobar@mail.com');
 
       // WHEN
       clickOnButtonWithId('createAccountTabButton');
@@ -107,7 +104,6 @@ describe('LoginComponent', () => {
   };
 
   describe('login', () => {
-
     it('should open Mat Snack Bar on login fail', () => {
       // GIVEN
       spyOn(mockLoginService, 'login').and.returnValue(new ErrorObservable({status: 401}));
